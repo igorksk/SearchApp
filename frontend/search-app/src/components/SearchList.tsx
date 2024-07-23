@@ -1,32 +1,42 @@
 import { useState, useEffect } from "react";
-import { DATA, Person } from "../data/CustomersDB";
+import { Person } from "../data/Models";
 import { debounceDelay } from "../data/Constants";
 import useDebounce from "../hooks/Hooks";
 import PersonCard from "./PersonCard"
+import personService from '../api/personService';
 
 const SearchList: React.FC = () => {
 
-  const [customersList] = useState<Person[]>(DATA);
-  const [filteredCustomersList, setFilteredCustomersList] = useState<Person[]>(DATA);
+  const [persons, setPersons] = useState<Person[]>([]);
 
   const [searchTerm, setSearchTerm] = useState<string>('');
 
   const debouncedSearchTerm = useDebounce(searchTerm, debounceDelay);
 
-    const handleSearch = () => {
+    const handleSearch = async () => {
       if (searchTerm === '') {
-        setFilteredCustomersList(customersList);
+        const allPersons = await personService.getAllPersons();
+        setPersons(allPersons);
       } else {
-        setFilteredCustomersList(customersList.filter((c) => c.name.toLowerCase().startsWith(searchTerm.toLowerCase())))
+        const filteredPersons = await personService.getPersonsByName(searchTerm);
+      setPersons(filteredPersons);
       }
     };
 
-    
+    useEffect(() => {
+      const fetchPersons = async () => {
+        const personsData = await personService.getAllPersons();
+        console.log(personsData);
+        setPersons(personsData);
+      };
+  
+      fetchPersons();
+    }, []);
+
     useEffect(() => {
       handleSearch();
-      // Perform any action with the debounced value here, e.g., make an API call
     }, [debouncedSearchTerm]);
-  
+
     return (       
       <div>
         <input className="search-input"
@@ -35,7 +45,7 @@ const SearchList: React.FC = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-          {filteredCustomersList.map((person) => (
+          {persons.map((person) => (
             <PersonCard key={person.id} person={person} />
           ))}
       </div>

@@ -12,6 +12,16 @@ namespace SearchApi
 
             builder.Services.AddSingleton<Data.Data>();
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("MyCorsPolicy", builder =>
+                {
+                    builder.WithOrigins("http://localhost:3000") // Replace with your allowed origins
+                           .AllowAnyMethod()
+                           .AllowAnyHeader();
+                });
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -21,12 +31,15 @@ namespace SearchApi
                 app.UseSwaggerUI();
             }
 
+            app.UseHttpsRedirection();
+            app.UseCors("MyCorsPolicy");
+
             app.MapGet("/people", () => Data.Data.People);
 
             app.MapGet("/people/{name}", (string name) =>
             {
-                var filteredPeople = Data.Data.People.Where(p => p.Name.Contains(name, StringComparison.InvariantCultureIgnoreCase));
-                return filteredPeople.Any() ? Results.Ok(filteredPeople) : Results.NotFound();
+                var filteredPeople = Data.Data.People.Where(p => p.Name.StartsWith(name, StringComparison.InvariantCultureIgnoreCase)).ToList();
+                return Results.Ok(filteredPeople);
             });
 
             app.Run();
