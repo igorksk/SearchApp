@@ -1,3 +1,5 @@
 const debounceDelay = 500;
 
-export {debounceDelay};
+const apiPort = 7091;
+
+export {debounceDelay, apiPort};

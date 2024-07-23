@@ -1,21 +1,8 @@
 import axios from 'axios';
+import { Person } from '../data/Models';
+import { apiPort } from '../data/Constants';
 
-export interface Job {
-    position: string;
-    years: number;
-    }
-  
-export interface Person {
-    id: number;
-    name: string;
-    phone: string;
-    skills: string[];
-    jobs: Job[];
-  }
-
-const URL = '7091'
-
-const baseUrl = 'https://localhost:' + URL +'/people'; // Replace with your actual API base URL
+const baseUrl = `https://localhost:${apiPort}/people`; // Replace with your actual API base URL
 
 const personService = {
     getAllPersons: async (): Promise<Person[]> => {
