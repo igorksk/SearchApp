@@ -1,4 +1,4 @@
-import { Person } from "../data/CustomersDB";
+import { Person } from "../data/Models";
 
 interface PersonCardProps {
     person: Person;

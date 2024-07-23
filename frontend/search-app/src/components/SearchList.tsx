@@ -19,14 +19,13 @@ const SearchList: React.FC = () => {
         setPersons(allPersons);
       } else {
         const filteredPersons = await personService.getPersonsByName(searchTerm);
-      setPersons(filteredPersons);
+        setPersons(filteredPersons);
       }
     };
 
     useEffect(() => {
       const fetchPersons = async () => {
         const personsData = await personService.getAllPersons();
-        console.log(personsData);
         setPersons(personsData);
       };
   
