@@ -1,54 +1,57 @@
-import { useState, useEffect } from "react";
-import { Person } from "../data/Models";
-import { debounceDelay } from "../data/Constants";
-import useDebounce from "../hooks/Hooks";
+import React, { useState, useEffect } from 'react';
+import { Container, TextField } from '@mui/material';
 import PersonCard from "./PersonCard"
-import personService from '../api/personService';
+import { Person } from '../types';
+import { fetchPeople, searchPeople, deletePerson } from '../api';
 
 const SearchList: React.FC = () => {
+  const [people, setPeople] = useState<Person[]>([]);
+  const [searchTerm, setSearchTerm] = useState('');
 
-  const [persons, setPersons] = useState<Person[]>([]);
+  useEffect(() => {
+    loadPeople();
+  }, []);
 
-  const [searchTerm, setSearchTerm] = useState<string>('');
-
-  const debouncedSearchTerm = useDebounce(searchTerm, debounceDelay);
-
-    const handleSearch = async () => {
-      if (searchTerm === '') {
-        const allPersons = await personService.getAllPersons();
-        setPersons(allPersons);
-      } else {
-        const filteredPersons = await personService.getPersonsByName(searchTerm);
-        setPersons(filteredPersons);
-      }
-    };
-
-    useEffect(() => {
-      const fetchPersons = async () => {
-        const personsData = await personService.getAllPersons();
-        setPersons(personsData);
-      };
-  
-      fetchPersons();
-    }, []);
-
-    useEffect(() => {
-      handleSearch();
-    }, [debouncedSearchTerm]);
-
-    return (       
-      <div>
-        <input className="search-input"
-          type="text"
-          placeholder="Enter your search term"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-          {persons.map((person) => (
-            <PersonCard key={person.id} person={person} />
-          ))}
-      </div>
-    );
+  const loadPeople = async () => {
+    const data = await fetchPeople();
+    setPeople(data);
   };
+
+  const handleSearch = async (value: string) => {
+    setSearchTerm(value);
+    if (value.trim()) {
+      const data = await searchPeople(value);
+      setPeople(data);
+    } else {
+      await loadPeople();
+    }
+  };
+
+  const handleDelete = async (id: number) => {
+    const success = await deletePerson(id);
+    if (success) {
+      setPeople(people.filter(p => p.id !== id));
+    }
+  };
+
+  return (
+    <Container maxWidth="md" sx={{ py: 4 }}>
+      <TextField
+        label="Search by name"
+        variant="outlined"
+        value={searchTerm}
+        onChange={(e) => handleSearch(e.target.value)}
+        sx={{ width: '100%', mb: 4 }}
+      />
+      {people.map((person) => (
+        <PersonCard
+          key={person.id}
+          person={person}
+          onDelete={handleDelete}
+        />
+      ))}
+    </Container>
+  );
+};
 
 export default SearchList;
