@@ -1,3 +1,5 @@
+using SearchApi.Endpoints;
+
 namespace SearchApi
 {
     public class Program
@@ -10,7 +12,7 @@ namespace SearchApi
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddSingleton<Data.Data>();
+            builder.Services.AddSingleton<Data.PeopleData>();
 
             builder.Services.AddCors(options =>
             {
@@ -34,13 +36,7 @@ namespace SearchApi
             app.UseHttpsRedirection();
             app.UseCors("MyCorsPolicy");
 
-            app.MapGet("/people", () => Data.Data.People);
-
-            app.MapGet("/people/{name}", (string name) =>
-            {
-                var filteredPeople = Data.Data.People.Where(p => p.Name.StartsWith(name, StringComparison.InvariantCultureIgnoreCase)).ToList();
-                return Results.Ok(filteredPeople);
-            });
+            PeopleEndpoints.MapEndpoints(app);
 
             app.Run();
         }

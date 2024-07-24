@@ -2,7 +2,7 @@
 
 namespace SearchApi.Data
 {
-    public class Data
+    public class PeopleData
     {
         public static List<Person> People { get; } =
         [
