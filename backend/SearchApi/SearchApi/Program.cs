@@ -1,4 +1,8 @@
+using Microsoft.EntityFrameworkCore;
+using SearchApi.Data;
 using SearchApi.Endpoints;
+using SearchApi.Repository;
+using SearchApi.Services;
 
 namespace SearchApi
 {
@@ -12,8 +16,15 @@ namespace SearchApi
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddSingleton<Data.PeopleData>();
+            builder.Services.AddDbContext<PeopleDbContext>(options =>
+            {
+                options.UseInMemoryDatabase("MyInMemoryDb"); // Specify a database name
+            });
 
+            builder.Services.AddTransient<PeopleDataSeeder>();
+            builder.Services.AddTransient<IPersonRepository, PersonRepository>();
+            builder.Services.AddTransient<IPersonService, PersonService>();
+            
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("MyCorsPolicy", builder =>
@@ -25,6 +36,13 @@ namespace SearchApi
             });
 
             var app = builder.Build();
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var dataSeeder = services.GetRequiredService<PeopleDataSeeder>();
+                dataSeeder.Seed();
+            }
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

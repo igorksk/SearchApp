@@ -1,5 +1,4 @@
 ﻿using SearchApi.Services;
-using System.Xml.Linq;
 
 namespace SearchApi.Endpoints
 {
@@ -7,11 +6,15 @@ namespace SearchApi.Endpoints
     {
         public static void MapEndpoints(WebApplication app)
         {
-            app.MapGet("/people", () => Data.PeopleData.People);
-
-            app.MapGet("/people/{name}", (string name) =>
+            app.MapGet("/people", async (IPersonService peopleService) => 
             {
-                var filteredPeople = PeopleService.FilterPeopleByName(Data.PeopleData.People, name);
+                var people = await peopleService.GetAllPeople();
+                return Results.Ok(people);
+            });
+
+            app.MapGet("/people/{name}", async (IPersonService peopleService, string name) =>
+            {
+                var filteredPeople = await peopleService.GetPeopleByNameStart(name);
                 return Results.Ok(filteredPeople);
             });
         }
