@@ -19,6 +19,10 @@
   width: 300px;
 }
 
+.card p, .card li, .card h2 {
+  text-align: left;
+}
+
 .search-input {
   width: 300px;
   padding: 10px;
