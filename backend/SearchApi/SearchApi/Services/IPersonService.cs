@@ -1,11 +1,11 @@
-﻿using SearchApi.Models;
+﻿using SearchApi.Dtos;
 
 namespace SearchApi.Services
 {
     public interface IPersonService
     {
-        Task<IEnumerable<Person>> GetAllPeople();
+        Task<IEnumerable<PersonDto>> GetAllPeople();
 
-        Task<IEnumerable<Person>> GetPeopleByNameStart(string name);
+        Task<IEnumerable<PersonDto>> GetPeopleByNameStart(string name);
     }
 }

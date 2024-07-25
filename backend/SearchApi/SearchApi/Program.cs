@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using SearchApi.Data;
 using SearchApi.Endpoints;
+using SearchApi.Helpers;
 using SearchApi.Repository;
 using SearchApi.Services;
 
@@ -24,7 +25,9 @@ namespace SearchApi
             builder.Services.AddTransient<PeopleDataSeeder>();
             builder.Services.AddTransient<IPersonRepository, PersonRepository>();
             builder.Services.AddTransient<IPersonService, PersonService>();
-            
+
+            builder.Services.AddAutoMapper(typeof(MappingProfile));
+
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("MyCorsPolicy", builder =>
