@@ -6,7 +6,7 @@ namespace SearchApi.Endpoints
     {
         public static void MapEndpoints(WebApplication app)
         {
-            app.MapGet("/people", async (IPersonService peopleService) => 
+            app.MapGet("/people", async (IPersonService peopleService) =>
             {
                 var people = await peopleService.GetAllPeople();
                 return Results.Ok(people);

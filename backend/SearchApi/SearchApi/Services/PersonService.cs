@@ -23,9 +23,9 @@ namespace SearchApi.Services
             return ConvertToPersonDtos(people); ;
         }
 
-        public async Task<IEnumerable<PersonDto>> GetPeopleByNameStart(string name) 
+        public async Task<IEnumerable<PersonDto>> GetPeopleByNameStart(string name)
         {
-            var people =  await _repo.GetPeopleByNameStart(name);
+            var people = await _repo.GetPeopleByNameStart(name);
             return ConvertToPersonDtos(people);
         }
 
