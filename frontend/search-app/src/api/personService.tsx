@@ -2,7 +2,7 @@ import axios from 'axios';
 import { Person } from '../data/Models';
 import { apiPort } from '../data/Constants';
 
-const baseUrl = `https://localhost:${apiPort}/people`; // Replace with your actual API base URL
+const baseUrl = `http://backend:${apiPort}/people`; // Replace with your actual API base URL
 
 const personService = {
     getAllPersons: async (): Promise<Person[]> => {
