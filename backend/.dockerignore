@@ -1,0 +1,8 @@
+# Backend-specific
+*.vshost.exe
+*.pdb
+*.dll
+*.exe
+*.local
+*.suo
+*.user
