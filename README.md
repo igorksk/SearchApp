@@ -8,3 +8,7 @@ Data Mapping: AutoMapper simplifies data transformation between layers.
 Database: In-Memory EF Core for a rapid development environment.
 Search Functionality: Search bar with debouncing ensures smooth and responsive user experience.
 Containerization: Docker Compose and Dockerfiles streamline deployment and scalability.
+
+To run this app:
+
+Clone project, start Docker Desktop, run "docker-compose up" in project root, then open http://localhost:3000.
