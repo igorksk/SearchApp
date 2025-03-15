@@ -1,33 +1,89 @@
 .App {
+  font-family: 'Inter', sans-serif;
   text-align: center;
+  background-color: #121212;
+  color: #f0f0f0;
 }
 
 .App-header {
-  background-color: #282c34;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: white;
-}
-
-.card {
-  border: 1px solid #ccc;
-  padding: 10px;
-  margin: 10px;
-  width: 300px;
-}
-
-.card p, .card li, .card h2 {
-  text-align: left;
+  padding: 20px;
 }
 
 .search-input {
-  width: 300px;
-  padding: 10px;
+  width: 100%;
+  max-width: 400px;
+  padding: 12px 18px;
   font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  border: 1px solid #444;
+  border-radius: 50px;
   outline: none;
+  background-color: #333;
+  color: #f0f0f0;
+  transition: all 0.3s ease;
+  margin-bottom: 20px;
+}
+
+.search-input:focus {
+  border-color: #3498db;  /* Soft blue color for focus */
+  box-shadow: 0 0 8px rgba(52, 152, 219, 0.6);  /* Soft blue focus shadow */
+}
+
+.card {
+  background-color: #1e1e1e;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  margin: 15px;
+  width: 100%;
+  max-width: 350px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+}
+
+.card h2 {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #a3c4fc;  /* Soft light blue color for headings */
+  margin-bottom: 10px;
+}
+
+.card p {
+  font-size: 1.1rem;
+  color: #bbb;
+  margin: 5px 0;
+}
+
+.card ul {
+  padding-left: 20px;
+}
+
+.card li {
+  font-size: 1rem;
+  color: #ccc;
+  margin: 4px 0;
+}
+
+.card li:nth-child(even) {
+  background-color: #333;
+  border-radius: 4px;
+  padding: 4px 8px;
+}
+
+@media (max-width: 600px) {
+  .search-input {
+    width: 90%;
+  }
+
+  .card {
+    width: 100%;
+  }
 }
