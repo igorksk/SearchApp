@@ -5,17 +5,11 @@ using SearchApi.Repository;
 
 namespace SearchApi.Services
 {
-    public class PersonService : IPersonService
+    public class PersonService(IMapper mapper, IPersonRepository repo) : IPersonService
     {
-        private readonly IMapper _mapper;
+        private readonly IMapper _mapper = mapper;
 
-        private readonly IPersonRepository _repo;
-
-        public PersonService(IMapper mapper, IPersonRepository repo)
-        {
-            _repo = repo;
-            _mapper = mapper;
-        }
+        private readonly IPersonRepository _repo = repo;
 
         public async Task<IEnumerable<PersonDto>> GetAllPeople()
         {
