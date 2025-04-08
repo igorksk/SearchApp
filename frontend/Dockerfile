@@ -1,12 +1,13 @@
 # Frontend Dockerfile
-FROM node:20-alpine
+FROM node:alpine
 
 WORKDIR /app
+
+EXPOSE 3000
 
 COPY ./search-app/package*.json ./
 RUN npm install
 
 COPY ./search-app .
-EXPOSE 3000
 
 CMD ["npm", "start"]
