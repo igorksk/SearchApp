@@ -19,7 +19,7 @@ namespace SearchApi
 
             builder.Services.AddDbContext<PeopleDbContext>(options =>
             {
-                options.UseInMemoryDatabase("MyInMemoryDb"); // Specify a database name
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
 
             builder.Services.AddTransient<PeopleDataSeeder>();
@@ -43,6 +43,8 @@ namespace SearchApi
             using (var scope = app.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
+                var context = services.GetRequiredService<PeopleDbContext>();
+                context.Database.Migrate();
                 var dataSeeder = services.GetRequiredService<PeopleDataSeeder>();
                 dataSeeder.Seed();
             }
