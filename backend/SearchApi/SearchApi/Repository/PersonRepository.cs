@@ -15,7 +15,10 @@ namespace SearchApi.Repository
 
         public async Task<IEnumerable<Person>> GetPeopleByNameStart(string name)
         {
-            return await _context.People.Include(p => p.Jobs).Where(p => p.Name.StartsWith(name, StringComparison.InvariantCultureIgnoreCase)).ToListAsync();
+            return await _context.People
+                .Include(p => p.Jobs)
+                .Where(p => EF.Functions.Like(p.Name.ToLower(), name.ToLower() + "%"))
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<Person>> GetAllPeople()
