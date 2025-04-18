@@ -1,4 +1,4 @@
-Modern Search App: React + TS UI, Axios API Calls, ASP.NET Core Minimal API, Swagger Docs, AutoMapper, In-Memory EF Core, Debounced Search, Dockerized for Deployment.
+Modern Search App: React + TS UI, Axios API Calls, ASP.NET Core Minimal API, Swagger Docs, AutoMapper, Debounced Search, Dockerized for Deployment.
 
 To run this app:
 
