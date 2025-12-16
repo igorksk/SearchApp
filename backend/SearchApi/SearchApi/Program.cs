@@ -30,9 +30,9 @@ namespace SearchApi
 
             builder.Services.AddCors(options =>
             {
-                options.AddPolicy("MyCorsPolicy", builder =>
+                options.AddPolicy("MyCorsPolicy", policyBuilder =>
                 {
-                    builder.WithOrigins("http://localhost:3000") // Replace with your allowed origins
+                    policyBuilder.WithOrigins("http://localhost:3000") // Replace with your allowed origins
                            .AllowAnyMethod()
                            .AllowAnyHeader();
                 });
